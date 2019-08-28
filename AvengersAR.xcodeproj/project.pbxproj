@@ -28,6 +28,8 @@
 		4825F8FB2316743600854FC8 /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4825F8FA2316743600854FC8 /* Alertable.swift */; };
 		4825F8FD231675A900854FC8 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4825F8FC231675A900854FC8 /* HeaderView.swift */; };
 		4825F9002316909600854FC8 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4825F8FF2316909600854FC8 /* Color.swift */; };
+		4825F9042316A8B200854FC8 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4825F9022316A8B200854FC8 /* AgeNet.mlmodel */; };
+		4825F9052316A8B200854FC8 /* AvengersClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4825F9032316A8B200854FC8 /* AvengersClassifier.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		4825F8FA2316743600854FC8 /* Alertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
 		4825F8FC231675A900854FC8 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		4825F8FF2316909600854FC8 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		4825F9022316A8B200854FC8 /* AgeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = AgeNet.mlmodel; path = ML/MLModels/AgeNet.mlmodel; sourceTree = SOURCE_ROOT; };
+		4825F9032316A8B200854FC8 /* AvengersClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = AvengersClassifier.mlmodel; path = ML/MLModels/AvengersClassifier.mlmodel; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,7 @@
 				48255BDE23164EF7009ED696 /* Services */,
 				48255BE123164F47009ED696 /* Extensions */,
 				4825F8FE2316907B00854FC8 /* Constants */,
+				4825F9012316A88C00854FC8 /* ML */,
 			);
 			path = AvengersAR;
 			sourceTree = "<group>";
@@ -199,8 +204,8 @@
 		48255BDE23164EF7009ED696 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				48255BDF23164F0B009ED696 /* NetworkService.swift */,
 				48255BEA23165099009ED696 /* MovieService.swift */,
+				48255BDF23164F0B009ED696 /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -237,6 +242,15 @@
 				4825F8FF2316909600854FC8 /* Color.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		4825F9012316A88C00854FC8 /* ML */ = {
+			isa = PBXGroup;
+			children = (
+				4825F9022316A8B200854FC8 /* AgeNet.mlmodel */,
+				4825F9032316A8B200854FC8 /* AvengersClassifier.mlmodel */,
+			);
+			path = ML;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,12 +385,14 @@
 			files = (
 				48255BE023164F0B009ED696 /* NetworkService.swift in Sources */,
 				48255BD123164AEB009ED696 /* AppCoordinator.swift in Sources */,
+				4825F9052316A8B200854FC8 /* AvengersClassifier.mlmodel in Sources */,
 				48255B9D2316490E009ED696 /* AppDelegate.swift in Sources */,
 				48255BCF23164AD0009ED696 /* HomeViewModel.swift in Sources */,
 				4825F9002316909600854FC8 /* Color.swift in Sources */,
 				48255BE823165021009ED696 /* Actor.swift in Sources */,
 				48255BE323164F5A009ED696 /* Dictionary.swift in Sources */,
 				48255BEB2316509A009ED696 /* MovieService.swift in Sources */,
+				4825F9042316A8B200854FC8 /* AgeNet.mlmodel in Sources */,
 				48255BDB23164BE3009ED696 /* ActorCell.swift in Sources */,
 				48255BCD23164AB2009ED696 /* HomeViewController.swift in Sources */,
 				4825F8FB2316743600854FC8 /* Alertable.swift in Sources */,
