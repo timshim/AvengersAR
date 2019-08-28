@@ -32,6 +32,18 @@ final class ActorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavBar()
     }
 
+    private func setupNavBar() {
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = false
+
+        let image = UIImage(named: "search_image")?.withRenderingMode(.alwaysTemplate)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(closeTapped))
+    }
+
+    @objc private func closeTapped() {
+        coordinator?.dismissActor()
+    }
 }

@@ -18,6 +18,7 @@ protocol Coordinator {
 final class AppCoordinator: NSObject, Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
+
     private var transition: UIViewControllerAnimatedTransitioning?
     var indexPath: IndexPath?
     var initialFrame: CGRect?
@@ -26,6 +27,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.navigationController = navigationController
         super.init()
         self.navigationController.delegate = self
+        self.navigationController.isNavigationBarHidden = true
     }
 
     func start() {

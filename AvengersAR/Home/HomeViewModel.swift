@@ -9,6 +9,7 @@
 final class HomeViewModel {
 
     var api: MovieService
+    var actors = [Actor]()
 
     init(api: MovieService) {
         self.api = api

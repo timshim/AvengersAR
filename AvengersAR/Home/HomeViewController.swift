@@ -15,10 +15,11 @@ final class HomeViewController: UIViewController {
 
     let collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = 12
+        flowLayout.minimumInteritemSpacing = 12
         let cv = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: flowLayout)
-        cv.backgroundColor = .green
+        cv.backgroundColor = Color.mainBg
+        cv.contentInsetAdjustmentBehavior = .never
         return cv
     }()
 
@@ -29,21 +30,13 @@ final class HomeViewController: UIViewController {
         return ai
     }()
 
-    private let actorReuseIdentifier = "actorReuseIdentifier"
+    private let headerReuseIdentifier = "header"
+    private let actorReuseIdentifier = "actor"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavBar()
         setupCollectionView()
         setupActivityIndicator()
-    }
-
-    private func setupNavBar() {
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.isTranslucent = false
-
-        let image = UIImage(named: "search_image")?.withRenderingMode(.alwaysTemplate)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(cameraTapped))
     }
 
     private func setupCollectionView() {
@@ -52,8 +45,7 @@ final class HomeViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
 
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
-
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerReuseIdentifier)
         collectionView.register(ActorCell.self, forCellWithReuseIdentifier: actorReuseIdentifier)
     }
 
@@ -72,7 +64,7 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return 5
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -84,5 +76,72 @@ extension HomeViewController: UICollectionViewDataSource {
 }
 
 extension HomeViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard collectionView.numberOfItems(inSection: 0) > 0 else { return }
+        guard viewModel.actors.count > 0 else { return }
+
+        let selectedActor = viewModel.actors[indexPath.item]
+        coordinator?.showActor(selectedActor, viewModel: viewModel)
+    }
+
+}
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard indexPath.section == 0 else { return CGSize.zero }
+
+        let sideInset: CGFloat = 12
+        let itemSpacing = (collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing
+        let width = (UIScreen.main.bounds.width - (2 * sideInset) - itemSpacing) / 2
+        let height = width * 1.33
+
+        return CGSize(width: width, height: height)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch indexPath.section {
+        case 0:
+            if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerReuseIdentifier, for: indexPath) as? HeaderView {
+                headerView.delegate = self
+                headerView.configure()
+                return headerView
+            }
+        default:
+            return UICollectionReusableView()
+        }
+        return UICollectionReusableView()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        switch section {
+        case 0:
+            let width = UIScreen.main.bounds.width
+            let height = UIScreen.main.bounds.height
+            return CGSize(width: width, height: height)
+        default:
+            return CGSize.zero
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if collectionView.numberOfItems(inSection: 0) > 0 {
+            return UIEdgeInsets(top: 12, left: 12, bottom: 24, right: 12)
+        }
+        return UIEdgeInsets.zero
+    }
+
+}
+
+extension HomeViewController: HeaderViewDelegate {
+
+    func didTapCamera() {
+
+    }
+
+    func didTapPhoto() {
+        
+    }
 
 }
