@@ -32,18 +32,19 @@ final class HeaderView: UICollectionReusableView {
     private let cameraButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Camera", for: .normal)
-        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        button.backgroundColor = .lightGray
+        button.setImage(UIImage(named: "Camera")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(cameraTapped), for: .touchUpInside)
         return button
     }()
 
     private let photoButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Photo", for: .normal)
-        button.titleEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        button.backgroundColor = .lightGray
+        button.setImage(UIImage(named: "Photo")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        button.imageEdgeInsets = UIEdgeInsets(top: 27, left: 27, bottom: 27, right: 27)
+        button.addTarget(self, action: #selector(photoTapped), for: .touchUpInside)
         return button
     }()
 
@@ -107,17 +108,39 @@ final class HeaderView: UICollectionReusableView {
         cameraButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         cameraButton.heightAnchor.constraint(equalToConstant: buttonWidth).isActive = true
 
+        cameraButton.transform = CGAffineTransform(scaleX: 0, y: 0).concatenating(CGAffineTransform(translationX: 80, y: -80))
+        cameraButton.alpha = 0
+        UIView.animate(withDuration: 1.1, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+            self.cameraButton.transform = CGAffineTransform.identity
+            self.cameraButton.alpha = 1
+        }, completion: nil)
+
         addSubview(photoButton)
         photoButton.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor).isActive = true
-        photoButton.leadingAnchor.constraint(equalTo: separatorView.trailingAnchor, constant: 20).isActive = true
+        photoButton.leadingAnchor.constraint(equalTo: separatorView.trailingAnchor, constant: 16).isActive = true
         photoButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         photoButton.heightAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+
+        photoButton.transform = CGAffineTransform(scaleX: 0, y: 0).concatenating(CGAffineTransform(translationX: -80, y: -80))
+        photoButton.alpha = 0
+        UIView.animate(withDuration: 1.2, delay: 0.12, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+            self.photoButton.transform = CGAffineTransform.identity
+            self.photoButton.alpha = 1
+        }, completion: nil)
     }
 
     func configure() {
         setupBgView()
         setupLogoView()
         setupButtons()
+    }
+
+    @objc private func cameraTapped() {
+        delegate?.didTapCamera()
+    }
+
+    @objc private func photoTapped() {
+        delegate?.didTapPhoto()
     }
 
 }

@@ -137,11 +137,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController: HeaderViewDelegate {
 
     func didTapCamera() {
-
+        print("Camera tapped")
     }
 
     func didTapPhoto() {
-        
+        print("Photo tapped")
     }
 
 }
