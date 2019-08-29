@@ -33,7 +33,8 @@ final class HomeViewModel {
             var actorsArray = [Actor]()
             var actorsInLastImage = [Actor]()
             for image in images {
-                if let actor = self.whoIsThis(image: image) {
+                let resizedImage = image.resizedImage(scaledToSize: CGSize(width: 227, height: 227))
+                if let actor = self.whoIsThis(image: resizedImage) {
                     actorsArray.append(actor)
                     if self.actors.contains(actor) {
                         actorsInLastImage.append(actor)
@@ -70,8 +71,7 @@ final class HomeViewModel {
     }
 
     private func whoIsThis(image: UIImage) -> Actor? {
-        let resizedImage = image.resizedImage(scaledToSize: CGSize(width: 227, height: 227))
-        if let imageBuffer = resizedImage.buffer() {
+        if let imageBuffer = image.buffer() {
             let avengersModel = Avengers()
             do {
                 let prediction = try avengersModel.prediction(image: imageBuffer)
@@ -91,8 +91,7 @@ final class HomeViewModel {
     }
 
     private func guessAge(image: UIImage) -> String? {
-        let resizedImage = image.resizedImage(scaledToSize: CGSize(width: 227, height: 227))
-        if let imageBuffer = resizedImage.buffer() {
+        if let imageBuffer = image.buffer() {
             let ageModel = AgeNet()
             do {
                 let prediction = try ageModel.prediction(data: imageBuffer)

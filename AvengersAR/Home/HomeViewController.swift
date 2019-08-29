@@ -71,6 +71,12 @@ final class HomeViewController: UIViewController, Alertable {
                         self.showAlert(title: "Error", message: error.localizedDescription)
                         return
                     }
+
+                    guard self.viewModel.actors.count > 0 else {
+                        self.showAlert(title: "No faces found", message: "Please try picking a photo with at least one face in it.")
+                        return
+                    }
+
                     self.collectionView.reloadData()
                     self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
 
@@ -96,8 +102,7 @@ extension HomeViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: actorReuseIdentifier, for: indexPath) as? ActorCell else { return UICollectionViewCell() }
         guard viewModel.actors.count > 0 else { return UICollectionViewCell() }
 
-        let actorsArray = Array(viewModel.actors)
-        cell.actor = actorsArray[indexPath.item]
+        cell.actor = viewModel.actors[indexPath.item]
         cell.configure()
         return cell
     }
