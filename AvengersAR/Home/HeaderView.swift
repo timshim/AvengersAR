@@ -122,11 +122,11 @@ final class HeaderView: UICollectionReusableView {
         photoButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         photoButton.heightAnchor.constraint(equalToConstant: buttonWidth).isActive = true
 
-        photoButton.transform = CGAffineTransform(scaleX: 0, y: 0)
-        photoButton.alpha = 0
-        UIView.animate(withDuration: 1.2, delay: 0.12, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-            self.photoButton.transform = CGAffineTransform.identity
-            self.photoButton.alpha = 1
+        textLabel.transform = CGAffineTransform(translationX: 0, y: 50)
+        textLabel.alpha = 0
+        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+            self.textLabel.transform = CGAffineTransform.identity
+            self.textLabel.alpha = 1
         }, completion: { _ in
             self.isLoaded = true
         })

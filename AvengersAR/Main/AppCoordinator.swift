@@ -15,19 +15,13 @@ protocol Coordinator {
     func start()
 }
 
-final class AppCoordinator: NSObject, Coordinator {
+final class AppCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
-    private var transition: UIViewControllerAnimatedTransitioning?
-    var indexPath: IndexPath?
-    var initialFrame: CGRect?
-
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        super.init()
-        self.navigationController.delegate = self
-        self.navigationController.isNavigationBarHidden = true
+
     }
 
     func start() {
@@ -36,7 +30,7 @@ final class AppCoordinator: NSObject, Coordinator {
         homeVC.viewModel = homeVM
         homeVC.coordinator = self
 
-        navigationController.navigationBar.shadowImage = UIImage()
+        navigationController.isNavigationBarHidden = true
         navigationController.pushViewController(homeVC, animated: false)
     }
 
@@ -49,28 +43,11 @@ final class AppCoordinator: NSObject, Coordinator {
         actorVC.viewModel = actorVM
         actorVC.coordinator = self
 
-//        let pushTransition = PushAnimator()
-//        pushTransition.indexPath = indexPath
-//        self.transition = pushTransition
-
         self.navigationController.present(actorVC, animated: true, completion: nil)
     }
 
     func dismissActor() {
-//        let popTransition = PopAnimator()
-//        popTransition.indexPath = indexPath
-//        popTransition.finalFrame = initialFrame
-//        self.transition = popTransition
-
         self.navigationController.dismiss(animated: true, completion: nil)
-    }
-
-}
-
-extension AppCoordinator: UINavigationControllerDelegate {
-
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self.transition
     }
 
 }

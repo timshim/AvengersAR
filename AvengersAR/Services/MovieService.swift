@@ -9,13 +9,13 @@
 import UIKit
 
 private enum MovieServiceRequest: String {
-    case searchActor, getActorDetails
+    case getActorId, getActorDetails
 
     func url(id: Int? = nil) -> URL? {
         let host = "https://api.themoviedb.org/3"
 
         switch self {
-        case .searchActor:
+        case .getActorId:
             guard let url = URL(string: host + "/search/person") else { return nil }
             return url
         case .getActorDetails:
@@ -42,7 +42,7 @@ final class MovieService {
     }
 
     func getActorId(_ query: String, completion: @escaping (Int?, Error?) -> Void) {
-        guard let url = MovieServiceRequest.searchActor.url() else { return }
+        guard let url = MovieServiceRequest.getActorId.url() else { return }
         guard let apiKey = apiKey else { return }
 
         let params: [String: Any] = [
