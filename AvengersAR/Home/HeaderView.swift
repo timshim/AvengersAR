@@ -55,6 +55,17 @@ final class HeaderView: UICollectionReusableView {
     }()
 
     private var isLoaded: Bool = false
+    var disableButtons = false {
+        didSet {
+            if self.disableButtons {
+                self.cameraButton.isEnabled = false
+                self.photoButton.isEnabled = false
+            } else {
+                self.cameraButton.isEnabled = true
+                self.photoButton.isEnabled = true
+            }
+        }
+    }
     weak var delegate: HeaderViewDelegate?
 
     private func setupBgView() {

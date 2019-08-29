@@ -30,17 +30,28 @@ final class ActorViewController: UIViewController {
         return iv
     }()
 
+    let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "close_button")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
+
+        view.backgroundColor = Color.mainBg
     }
 
     private func setupNavBar() {
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.isTranslucent = false
-
-        let image = UIImage(named: "search_image")?.withRenderingMode(.alwaysTemplate)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(closeTapped))
+        view.addSubview(closeButton)
+        closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        closeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12).isActive = true
+        closeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
 
     @objc private func closeTapped() {

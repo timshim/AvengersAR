@@ -33,7 +33,6 @@ final class HomeViewController: UIViewController, Alertable {
 
     private let headerReuseIdentifier = "header"
     private let actorReuseIdentifier = "actor"
-    private var lastIndexItem = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,24 +57,28 @@ final class HomeViewController: UIViewController, Alertable {
     }
 
     private func analyzeImage(_ image: UIImage) {
+        guard let headerView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 0)) as? HeaderView else { return }
+
         activityIndicator.startAnimating()
+        headerView.disableButtons = true
 
         DispatchQueue.global().async {
             self.viewModel.findFaces(image) { (actorsInLastImage, error) in
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
+                    headerView.disableButtons = false
                     if let error = error {
                         self.showAlert(title: "Error", message: error.localizedDescription)
                         return
                     }
+                    self.collectionView.reloadData()
+                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+
                     if let actorsInLastImage = actorsInLastImage, !actorsInLastImage.isEmpty {
                         let actorsName = actorsInLastImage.map { $0.name }
                         let message = actorsName.joined(separator: ", ")
                         self.showAlert(title: "People from last photo", message: message)
                     }
-                    self.collectionView.reloadData()
-                    self.collectionView.scrollToItem(at: IndexPath(item: self.lastIndexItem, section: 0), at: .top, animated: true)
-                    self.lastIndexItem = self.viewModel.actors.count
                 }
             }
         }

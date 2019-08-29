@@ -40,7 +40,7 @@ final class HomeViewModel {
                     }
                 }
             }
-            self.actors.append(contentsOf: actorsArray)
+            self.actors = actorsArray
             completion(actorsInLastImage, nil)
         }
 

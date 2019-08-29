@@ -48,20 +48,20 @@ final class AppCoordinator: NSObject, Coordinator {
         actorVC.actor = actor
         actorVC.coordinator = self
 
-        let pushTransition = PushAnimator()
-        pushTransition.indexPath = indexPath
-        self.transition = pushTransition
+//        let pushTransition = PushAnimator()
+//        pushTransition.indexPath = indexPath
+//        self.transition = pushTransition
 
-        self.navigationController.pushViewController(actorVC, animated: true)
+        self.navigationController.present(actorVC, animated: true, completion: nil)
     }
 
     func dismissActor() {
-        let popTransition = PopAnimator()
-        popTransition.indexPath = indexPath
-        popTransition.finalFrame = initialFrame
-        self.transition = popTransition
+//        let popTransition = PopAnimator()
+//        popTransition.indexPath = indexPath
+//        popTransition.finalFrame = initialFrame
+//        self.transition = popTransition
 
-        self.navigationController.popViewController(animated: true)
+        self.navigationController.dismiss(animated: true, completion: nil)
     }
 
 }
