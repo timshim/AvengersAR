@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController, Alertable {
 
     var viewModel: HomeViewModel!
     weak var coordinator: AppCoordinator?
@@ -24,9 +24,10 @@ final class HomeViewController: UIViewController {
     }()
 
     private let activityIndicator: UIActivityIndicatorView = {
-        let ai = UIActivityIndicatorView(style: .gray)
+        let ai = UIActivityIndicatorView(style: .white)
         ai.hidesWhenStopped = true
         ai.translatesAutoresizingMaskIntoConstraints = false
+        ai.alpha = 0.7
         return ai
     }()
 
@@ -52,11 +53,25 @@ final class HomeViewController: UIViewController {
     private func setupActivityIndicator() {
         view.addSubview(activityIndicator)
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
     }
 
-    @objc private func cameraTapped() {
-        print("Camera tapped")
+    private func analyzeImage(_ image: UIImage) {
+        activityIndicator.startAnimating()
+
+        DispatchQueue.global().async {
+            self.viewModel.findFaces(image) { error in
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    if let error = error {
+                        self.showAlert(title: "Error", message: error.localizedDescription)
+                        return
+                    }
+                    self.collectionView.reloadData()
+//                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+                }
+            }
+        }
     }
 
 }
@@ -64,11 +79,14 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.actors.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: actorReuseIdentifier, for: indexPath) as? ActorCell else { return UICollectionViewCell() }
+        guard viewModel.actors.count > 0 else { return UICollectionViewCell() }
+
+        cell.actor = viewModel.actors[indexPath.item]
         cell.configure()
         return cell
     }
@@ -141,7 +159,39 @@ extension HomeViewController: HeaderViewDelegate {
     }
 
     func didTapPhoto() {
-        print("Photo tapped")
+        activityIndicator.startAnimating()
+
+        DispatchQueue.global().async {
+            let pickerController = UIImagePickerController()
+            pickerController.delegate = self
+            pickerController.allowsEditing = false
+            pickerController.mediaTypes = ["public.image"]
+            pickerController.sourceType = .photoLibrary
+
+            DispatchQueue.main.async {
+                self.present(pickerController, animated: true, completion: {
+                    self.activityIndicator.stopAnimating()
+                })
+            }
+        }
+    }
+
+}
+
+extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[.originalImage] as? UIImage else { return }
+
+        self.dismiss(animated: true, completion: {
+            DispatchQueue.main.async {
+                self.analyzeImage(selectedImage)
+            }
+        })
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 
 }

@@ -54,6 +54,7 @@ final class HeaderView: UICollectionReusableView {
         return view
     }()
 
+    private var isLoaded: Bool = false
     weak var delegate: HeaderViewDelegate?
 
     private func setupBgView() {
@@ -110,10 +111,13 @@ final class HeaderView: UICollectionReusableView {
 
         cameraButton.transform = CGAffineTransform(scaleX: 0, y: 0).concatenating(CGAffineTransform(translationX: 80, y: -80))
         cameraButton.alpha = 0
+        
         UIView.animate(withDuration: 1.1, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             self.cameraButton.transform = CGAffineTransform.identity
             self.cameraButton.alpha = 1
-        }, completion: nil)
+        }, completion: { _ in
+            self.isLoaded = true
+        })
 
         addSubview(photoButton)
         photoButton.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor).isActive = true
@@ -126,10 +130,14 @@ final class HeaderView: UICollectionReusableView {
         UIView.animate(withDuration: 1.2, delay: 0.12, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             self.photoButton.transform = CGAffineTransform.identity
             self.photoButton.alpha = 1
-        }, completion: nil)
+        }, completion: { _ in
+            self.isLoaded = true
+        })
     }
 
     func configure() {
+        guard isLoaded == false else { return }
+        
         setupBgView()
         setupLogoView()
         setupButtons()
