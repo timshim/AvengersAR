@@ -33,6 +33,7 @@ final class HomeViewController: UIViewController, Alertable {
 
     private let headerReuseIdentifier = "header"
     private let actorReuseIdentifier = "actor"
+    private var lastIndexItem = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,15 +61,21 @@ final class HomeViewController: UIViewController, Alertable {
         activityIndicator.startAnimating()
 
         DispatchQueue.global().async {
-            self.viewModel.findFaces(image) { error in
+            self.viewModel.findFaces(image) { (actorsInLastImage, error) in
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                     if let error = error {
                         self.showAlert(title: "Error", message: error.localizedDescription)
                         return
                     }
+                    if let actorsInLastImage = actorsInLastImage, !actorsInLastImage.isEmpty {
+                        let actorsName = actorsInLastImage.map { $0.name }
+                        let message = actorsName.joined(separator: ", ")
+                        self.showAlert(title: "People from last photo", message: message)
+                    }
                     self.collectionView.reloadData()
-//                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+                    self.collectionView.scrollToItem(at: IndexPath(item: self.lastIndexItem, section: 0), at: .top, animated: true)
+                    self.lastIndexItem = self.viewModel.actors.count
                 }
             }
         }
@@ -86,7 +93,8 @@ extension HomeViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: actorReuseIdentifier, for: indexPath) as? ActorCell else { return UICollectionViewCell() }
         guard viewModel.actors.count > 0 else { return UICollectionViewCell() }
 
-        cell.actor = viewModel.actors[indexPath.item]
+        let actorsArray = Array(viewModel.actors)
+        cell.actor = actorsArray[indexPath.item]
         cell.configure()
         return cell
     }
@@ -99,7 +107,8 @@ extension HomeViewController: UICollectionViewDelegate {
         guard collectionView.numberOfItems(inSection: 0) > 0 else { return }
         guard viewModel.actors.count > 0 else { return }
 
-        let selectedActor = viewModel.actors[indexPath.item]
+        let actorsArray = Array(viewModel.actors)
+        let selectedActor = actorsArray[indexPath.item]
         coordinator?.showActor(selectedActor, viewModel: viewModel)
     }
 

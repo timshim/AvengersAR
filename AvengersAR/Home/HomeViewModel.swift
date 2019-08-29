@@ -19,33 +19,35 @@ final class HomeViewModel {
         self.api = api
     }
 
-    func findFaces(_ image: UIImage, completion: @escaping (Error?) -> Void) {
-        actors.removeAll()
-
+    func findFaces(_ image: UIImage, completion: @escaping ([Actor]?, Error?) -> Void) {
         guard let cgImage = image.cgImage else { return }
         let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
         let detectFaceRequest = VNDetectFaceRectanglesRequest { (request, error) in
             if let error = error {
-                completion(error)
+                completion(nil, error)
                 return
             }
             guard let results = request.results as? [VNFaceObservation] else { return }
             let images = self.processFacesResult(image, results)
 
             var actorsArray = [Actor]()
+            var actorsInLastImage = [Actor]()
             for image in images {
                 if let actor = self.whoIsThis(image: image) {
                     actorsArray.append(actor)
+                    if self.actors.contains(actor) {
+                        actorsInLastImage.append(actor)
+                    }
                 }
             }
-            self.actors = actorsArray
-            completion(nil)
+            self.actors.append(contentsOf: actorsArray)
+            completion(actorsInLastImage, nil)
         }
 
         do {
             try handler.perform([detectFaceRequest])
         } catch let error {
-            completion(error)
+            completion(nil, error)
         }
     }
 
@@ -82,7 +84,7 @@ final class HomeViewModel {
                 let actor = Actor(name: prediction.classLabel, profilePhoto: image, ageRange: ageRange)
                 return actor
             } catch {
-                print(error.localizedDescription)
+                fatalError(error.localizedDescription)
             }
         }
         return nil
@@ -96,7 +98,7 @@ final class HomeViewModel {
                 let prediction = try ageModel.prediction(data: imageBuffer)
                 return prediction.classLabel
             } catch {
-                print(error.localizedDescription)
+                fatalError(error.localizedDescription)
             }
         }
         return nil

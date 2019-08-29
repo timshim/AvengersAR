@@ -8,10 +8,14 @@
 
 import UIKit
 
-struct Actor {
+struct Actor: Equatable {
 
     let name: String
     let profilePhoto: UIImage
     let ageRange: String?
+
+    static func ==(lhs: Actor, rhs: Actor) -> Bool {
+        return lhs.name == rhs.name
+    }
 
 }

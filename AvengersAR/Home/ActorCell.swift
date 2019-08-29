@@ -12,8 +12,8 @@ final class ActorCell: UICollectionViewCell {
 
     var actor: Actor!
 
-    let imageView: CachedImageView = {
-        let iv = CachedImageView()
+    let imageView: UIImageView = {
+        let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.backgroundColor = Color.imageBg
         iv.translatesAutoresizingMaskIntoConstraints = false
