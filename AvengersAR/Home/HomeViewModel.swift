@@ -12,43 +12,40 @@ import CoreML
 
 final class HomeViewModel {
 
-    var api: MovieService
     var actors = [Actor]()
 
-    init(api: MovieService) {
-        self.api = api
-    }
-
     func findFaces(_ image: UIImage, completion: @escaping ([Actor]?, Error?) -> Void) {
-        guard let cgImage = image.cgImage else { return }
-        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        let detectFaceRequest = VNDetectFaceRectanglesRequest { (request, error) in
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            guard let results = request.results as? [VNFaceObservation] else { return }
-            let images = self.processFacesResult(image, results)
+        DispatchQueue.global().async {
+            guard let cgImage = image.cgImage else { return }
+            let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+            let detectFaceRequest = VNDetectFaceRectanglesRequest { (request, error) in
+                if let error = error {
+                    completion(nil, error)
+                    return
+                }
+                guard let results = request.results as? [VNFaceObservation] else { return }
+                let images = self.processFacesResult(image, results)
 
-            var actorsArray = [Actor]()
-            var actorsInLastImage = [Actor]()
-            for image in images {
-                let resizedImage = image.resizedImage(scaledToSize: CGSize(width: 227, height: 227))
-                if let actor = self.whoIsThis(image: resizedImage) {
-                    actorsArray.append(actor)
-                    if self.actors.contains(actor) {
-                        actorsInLastImage.append(actor)
+                var actorsArray = [Actor]()
+                var actorsInLastImage = [Actor]()
+                for image in images {
+                    let resizedImage = image.resizedImage(scaledToSize: CGSize(width: 227, height: 227))
+                    if let actor = self.whoIsThis(image: resizedImage) {
+                        actorsArray.append(actor)
+                        if self.actors.contains(actor) {
+                            actorsInLastImage.append(actor)
+                        }
                     }
                 }
+                self.actors = actorsArray
+                completion(actorsInLastImage, nil)
             }
-            self.actors = actorsArray
-            completion(actorsInLastImage, nil)
-        }
 
-        do {
-            try handler.perform([detectFaceRequest])
-        } catch let error {
-            completion(nil, error)
+            do {
+                try handler.perform([detectFaceRequest])
+            } catch let error {
+                completion(nil, error)
+            }
         }
     }
 
@@ -80,8 +77,15 @@ final class HomeViewModel {
                     return nil
                 }
 
+                guard let jpg = image.jpegData(compressionQuality: 80) else { return nil }
+                guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+                let uuid = UUID().uuidString
+                let filepath = path.appendingPathComponent("\(uuid).jpg")
+                try jpg.write(to: filepath)
+
                 let ageRange = self.guessAge(image: image)
-                let actor = Actor(name: prediction.classLabel, profilePhoto: image, ageRange: ageRange)
+
+                let actor = Actor(name: prediction.classLabel, faceDetectPhotoUrl: filepath.path, ageRange: ageRange)
                 return actor
             } catch {
                 fatalError(error.localizedDescription)

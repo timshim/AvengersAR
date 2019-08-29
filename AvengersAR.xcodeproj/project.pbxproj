@@ -31,6 +31,7 @@
 		4825F9042316A8B200854FC8 /* AgeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4825F9022316A8B200854FC8 /* AgeNet.mlmodel */; };
 		4825F9072316CFF700854FC8 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4825F9062316CFF700854FC8 /* UIImage.swift */; };
 		4825F9092316D9E200854FC8 /* Avengers.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4825F9082316D9E200854FC8 /* Avengers.mlmodel */; };
+		48CDA3512317C7ED00CF47AA /* ActorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CDA3502317C7ED00CF47AA /* ActorViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		4825F9022316A8B200854FC8 /* AgeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = AgeNet.mlmodel; path = ML/MLModels/AgeNet.mlmodel; sourceTree = SOURCE_ROOT; };
 		4825F9062316CFF700854FC8 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		4825F9082316D9E200854FC8 /* Avengers.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Avengers.mlmodel; path = ML/MLModels/Avengers.mlmodel; sourceTree = SOURCE_ROOT; };
+		48CDA3502317C7ED00CF47AA /* ActorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 		48255BD723164B92009ED696 /* Actor */ = {
 			isa = PBXGroup;
 			children = (
+				48CDA3502317C7ED00CF47AA /* ActorViewModel.swift */,
 				48255BD823164BB0009ED696 /* ActorViewController.swift */,
 			);
 			path = Actor;
@@ -404,6 +407,7 @@
 				4825F9092316D9E200854FC8 /* Avengers.mlmodel in Sources */,
 				48255BDD23164C60009ED696 /* CachedImageView.swift in Sources */,
 				48255BD423164B3D009ED696 /* PushAnimator.swift in Sources */,
+				48CDA3512317C7ED00CF47AA /* ActorViewModel.swift in Sources */,
 				48255BE523164F62009ED696 /* URL.swift in Sources */,
 				4825F8FD231675A900854FC8 /* HeaderView.swift in Sources */,
 			);

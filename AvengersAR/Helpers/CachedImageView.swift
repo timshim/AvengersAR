@@ -10,9 +10,9 @@ import UIKit
 
 final class CachedImageView: UIImageView {
 
-    private var imageCache: NSCache<NSString, UIImage>!
+    private let imageCache = NSCache<NSString, UIImage>()
     private let activityIndicator: UIActivityIndicatorView = {
-        let ai = UIActivityIndicatorView(style: .gray)
+        let ai = UIActivityIndicatorView(style: .white)
         ai.hidesWhenStopped = true
         ai.translatesAutoresizingMaskIntoConstraints = false
         return ai
@@ -26,12 +26,14 @@ final class CachedImageView: UIImageView {
             return
         }
 
-        self.addSubview(activityIndicator)
-        activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        activityIndicator.startAnimating()
+        DispatchQueue.main.async {
+            self.addSubview(self.activityIndicator)
+            self.activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            self.activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+            self.activityIndicator.startAnimating()
 
-        self.image = nil
+            self.image = nil
+        }
 
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {

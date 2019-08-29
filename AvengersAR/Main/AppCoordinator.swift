@@ -31,9 +31,7 @@ final class AppCoordinator: NSObject, Coordinator {
     }
 
     func start() {
-        let networkService = NetworkService()
-        let api = MovieService(networkService: networkService)
-        let homeVM = HomeViewModel(api: api)
+        let homeVM = HomeViewModel()
         let homeVC = HomeViewController()
         homeVC.viewModel = homeVM
         homeVC.coordinator = self
@@ -43,9 +41,12 @@ final class AppCoordinator: NSObject, Coordinator {
     }
 
     func showActor(_ actor: Actor, viewModel: HomeViewModel) {
+        let networkService = NetworkService()
+        let api = MovieService(networkService: networkService)
+        let actorVM = ActorViewModel(api: api)
         let actorVC = ActorViewController()
-        actorVC.viewModel = viewModel
-        actorVC.actor = actor
+        actorVM.actor = actor
+        actorVC.viewModel = actorVM
         actorVC.coordinator = self
 
 //        let pushTransition = PushAnimator()

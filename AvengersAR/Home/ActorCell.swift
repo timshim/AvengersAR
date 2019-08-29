@@ -89,7 +89,12 @@ final class ActorCell: UICollectionViewCell {
             isLoaded = true
         }
 
-        imageView.image = actor.profilePhoto
+        if let faceDetectPhotoUrl = actor.faceDetectPhotoUrl {
+            let imageUrl = URL(fileURLWithPath: faceDetectPhotoUrl)
+            if let image = UIImage(contentsOfFile: imageUrl.path) {
+                imageView.image = image
+            }
+        }
 
         var labelString = actor.name
         if let ageRange = actor.ageRange {

@@ -62,29 +62,27 @@ final class HomeViewController: UIViewController, Alertable {
         activityIndicator.startAnimating()
         headerView.disableButtons = true
 
-        DispatchQueue.global().async {
-            self.viewModel.findFaces(image) { (actorsInLastImage, error) in
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                    headerView.disableButtons = false
-                    if let error = error {
-                        self.showAlert(title: "Error", message: error.localizedDescription)
-                        return
-                    }
+        self.viewModel.findFaces(image) { (actorsInLastImage, error) in
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                headerView.disableButtons = false
+                if let error = error {
+                    self.showAlert(title: "Error", message: error.localizedDescription)
+                    return
+                }
 
-                    guard self.viewModel.actors.count > 0 else {
-                        self.showAlert(title: "No faces found", message: "Please try picking a photo with at least one face in it.")
-                        return
-                    }
+                guard self.viewModel.actors.count > 0 else {
+                    self.showAlert(title: "No faces found", message: "Please try picking a photo with at least one face in it.")
+                    return
+                }
 
-                    self.collectionView.reloadData()
-                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+                self.collectionView.reloadData()
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
 
-                    if let actorsInLastImage = actorsInLastImage, !actorsInLastImage.isEmpty {
-                        let actorsName = actorsInLastImage.map { $0.name }
-                        let message = actorsName.joined(separator: ", ")
-                        self.showAlert(title: "People from last photo", message: message)
-                    }
+                if let actorsInLastImage = actorsInLastImage, !actorsInLastImage.isEmpty {
+                    let actorsName = actorsInLastImage.map { $0.name }
+                    let message = actorsName.joined(separator: ", ")
+                    self.showAlert(title: "People from last photo", message: message)
                 }
             }
         }
@@ -178,19 +176,15 @@ extension HomeViewController: HeaderViewDelegate {
     func didTapPhoto() {
         activityIndicator.startAnimating()
 
-        DispatchQueue.global().async {
-            let pickerController = UIImagePickerController()
-            pickerController.delegate = self
-            pickerController.allowsEditing = false
-            pickerController.mediaTypes = ["public.image"]
-            pickerController.sourceType = .photoLibrary
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.allowsEditing = false
+        pickerController.mediaTypes = ["public.image"]
+        pickerController.sourceType = .photoLibrary
 
-            DispatchQueue.main.async {
-                self.present(pickerController, animated: true, completion: {
-                    self.activityIndicator.stopAnimating()
-                })
-            }
-        }
+        self.present(pickerController, animated: true, completion: {
+            self.activityIndicator.stopAnimating()
+        })
     }
 
 }
@@ -201,9 +195,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
         guard let selectedImage = info[.originalImage] as? UIImage else { return }
 
         self.dismiss(animated: true, completion: {
-            DispatchQueue.main.async {
-                self.analyzeImage(selectedImage)
-            }
+            self.analyzeImage(selectedImage)
         })
     }
 

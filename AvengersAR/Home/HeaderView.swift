@@ -76,7 +76,7 @@ final class HeaderView: UICollectionReusableView {
         bgView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
         let colorTop = UIColor.black.cgColor
-        let colorBottom = UIColor(hue: 0, saturation: 0, brightness: 0.2, alpha: 1).cgColor
+        let colorBottom = Color.mainBg.cgColor
 
         let gradient = CAGradientLayer()
         gradient.colors = [colorTop, colorBottom]
