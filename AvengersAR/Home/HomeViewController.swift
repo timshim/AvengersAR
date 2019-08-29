@@ -61,11 +61,14 @@ final class HomeViewController: UIViewController, Alertable {
 
         activityIndicator.startAnimating()
         headerView.disableButtons = true
+        headerView.textLabel.text = "Analyzing faces..."
 
         self.viewModel.findFaces(image) { (actorsInLastImage, error) in
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 headerView.disableButtons = false
+                headerView.textLabel.text = "Tap the logo to analyze a photo"
+                
                 if let error = error {
                     self.showAlert(title: "Error", message: error.localizedDescription)
                     return

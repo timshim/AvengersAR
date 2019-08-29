@@ -42,11 +42,11 @@ final class HeaderView: UICollectionReusableView {
         return view
     }()
 
-    private let textLabel: UIView = {
+    let textLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor(white: 1, alpha: 0.5)
-        label.text = "Tap the logo to start analyzing a photo"
+        label.text = "Tap the logo to analyze a photo"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
