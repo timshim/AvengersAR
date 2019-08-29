@@ -169,11 +169,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
 extension HomeViewController: HeaderViewDelegate {
 
-    func didTapCamera() {
-        print("Camera tapped")
-    }
-
     func didTapPhoto() {
+        collectionView.setContentOffset(CGPoint.zero, animated: true)
         activityIndicator.startAnimating()
 
         let pickerController = UIImagePickerController()

@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AvengersLogo" translatesAutoresizingMaskIntoConstraints="NO" id="1df-7v-aLn">
-                                <rect key="frame" x="103.5" y="294.5" width="207" height="207"/>
+                                <rect key="frame" x="103.5" y="344.5" width="207" height="207"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1df-7v-aLn" secondAttribute="height" multiplier="1:1" id="egW-AA-MAb"/>
                                 </constraints>
@@ -27,7 +27,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="1df-7v-aLn" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-50" id="3mL-sR-Kbu"/>
+                            <constraint firstItem="1df-7v-aLn" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="3mL-sR-Kbu"/>
                             <constraint firstItem="1df-7v-aLn" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.5" id="Sor-Um-FjF"/>
                             <constraint firstItem="1df-7v-aLn" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="g69-sh-qbe"/>
                         </constraints>
