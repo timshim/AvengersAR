@@ -14,13 +14,13 @@ final class HomeViewModel {
 
     var actors = [Actor]()
 
-    func findFaces(_ image: UIImage, completion: @escaping ([Actor]?, Error?) -> Void) {
+    func findFaces(_ image: UIImage, completion: @escaping ([Actor]?, [Actor]?, Error?) -> Void) {
         DispatchQueue.global().async {
             guard let cgImage = image.cgImage else { return }
             let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
             let detectFaceRequest = VNDetectFaceRectanglesRequest { (request, error) in
                 if let error = error {
-                    completion(nil, error)
+                    completion(nil, nil, error)
                     return
                 }
                 guard let results = request.results as? [VNFaceObservation] else { return }
@@ -38,13 +38,13 @@ final class HomeViewModel {
                     }
                 }
                 self.actors = actorsArray
-                completion(actorsInLastImage, nil)
+                completion(actorsArray, actorsInLastImage, nil)
             }
 
             do {
                 try handler.perform([detectFaceRequest])
             } catch let error {
-                completion(nil, error)
+                completion(nil, nil, error)
             }
         }
     }
@@ -77,11 +77,11 @@ final class HomeViewModel {
                     return nil
                 }
 
-                guard let jpg = image.jpegData(compressionQuality: 80) else { return nil }
+                guard let jpgData = image.jpegData(compressionQuality: 80) else { return nil }
                 guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
                 let uuid = UUID().uuidString
                 let filepath = path.appendingPathComponent("\(uuid).jpg")
-                try jpg.write(to: filepath)
+                try jpgData.write(to: filepath)
 
                 let ageRange = self.guessAge(image: image)
 

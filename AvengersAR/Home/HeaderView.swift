@@ -96,7 +96,7 @@ final class HeaderView: UICollectionReusableView {
 
         addSubview(separatorView)
         separatorView.centerXAnchor.constraint(equalTo: logoView.centerXAnchor).isActive = true
-        separatorView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: 50).isActive = true
+        separatorView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: 0).isActive = true
         separatorView.widthAnchor.constraint(equalToConstant: 1).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 200).isActive = true
 

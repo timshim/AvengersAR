@@ -13,12 +13,12 @@ enum HTTPMethod: String {
 }
 
 protocol NetworkServiceProtocol {
-    func request(url: URL, httpMethod: HTTPMethod, params: [String: Any], completion: @escaping (Data?, Error?) -> Void)
+    func request(url: URL, httpMethod: HTTPMethod, params: [String: Any], completion: @escaping (Data?, ErrorProtocol?) -> Void)
 }
 
 final class NetworkService: NetworkServiceProtocol {
 
-    func request(url: URL, httpMethod: HTTPMethod, params: [String: Any], completion: @escaping (Data?, Error?) -> Void) {
+    func request(url: URL, httpMethod: HTTPMethod, params: [String: Any], completion: @escaping (Data?, ErrorProtocol?) -> Void) {
         var mutableUrl = url
         mutableUrl = mutableUrl.appendingQueryParameters(params)
 
@@ -27,11 +27,24 @@ final class NetworkService: NetworkServiceProtocol {
 
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil {
-                completion(nil, error)
+                let requestError = NetworkError("Request error")
+                completion(nil, requestError)
                 return
             }
             completion(data, nil)
         }.resume()
     }
 
+}
+
+protocol ErrorProtocol: LocalizedError {
+    var description: String? { get }
+}
+
+final class NetworkError: ErrorProtocol {
+    var description: String?
+
+    init(_ description: String) {
+        self.description = description
+    }
 }

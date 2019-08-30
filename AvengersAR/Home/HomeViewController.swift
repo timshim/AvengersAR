@@ -63,7 +63,7 @@ final class HomeViewController: UIViewController, Alertable {
         headerView.disableButtons = true
         headerView.textLabel.text = "Analyzing faces..."
 
-        self.viewModel.findFaces(image) { (actorsInLastImage, error) in
+        self.viewModel.findFaces(image) { (actors, actorsInLastImage, error) in
             DispatchQueue.main.async {
                 self.activityIndicator.stopAnimating()
                 headerView.disableButtons = false
@@ -75,7 +75,7 @@ final class HomeViewController: UIViewController, Alertable {
                 }
 
                 guard self.viewModel.actors.count > 0 else {
-                    self.showAlert(title: "No faces found", message: "Please try picking a photo with at least one face in it.")
+                    self.showAlert(title: "No Avenger found", message: "Please try picking a photo with at least one Avenger in it.")
                     return
                 }
 
@@ -179,7 +179,6 @@ extension HomeViewController: HeaderViewDelegate {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.allowsEditing = false
-        pickerController.mediaTypes = ["public.image"]
         pickerController.sourceType = .photoLibrary
 
         self.present(pickerController, animated: true, completion: {

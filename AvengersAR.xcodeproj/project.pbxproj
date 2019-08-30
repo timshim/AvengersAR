@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		482483F72318D1CC001ADED5 /* ActorViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482483F62318D1CC001ADED5 /* ActorViewModelTests.swift */; };
+		482483FA2318D280001ADED5 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482483F92318D280001ADED5 /* MockNetworkService.swift */; };
+		482483FC2318D7D4001ADED5 /* MovieServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482483FB2318D7D4001ADED5 /* MovieServiceTests.swift */; };
+		482483FD2318E0B2001ADED5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48255BA323164910009ED696 /* Assets.xcassets */; };
 		48255B9D2316490E009ED696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48255B9C2316490E009ED696 /* AppDelegate.swift */; };
 		48255BA423164910009ED696 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48255BA323164910009ED696 /* Assets.xcassets */; };
 		48255BA723164910009ED696 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48255BA523164910009ED696 /* LaunchScreen.storyboard */; };
-		48255BB223164910009ED696 /* AvengersARTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48255BB123164910009ED696 /* AvengersARTests.swift */; };
+		48255BB223164910009ED696 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48255BB123164910009ED696 /* HomeViewModelTests.swift */; };
 		48255BBD23164910009ED696 /* AvengersARUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48255BBC23164910009ED696 /* AvengersARUITests.swift */; };
 		48255BCD23164AB2009ED696 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48255BCC23164AB2009ED696 /* HomeViewController.swift */; };
 		48255BCF23164AD0009ED696 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48255BCE23164AD0009ED696 /* HomeViewModel.swift */; };
@@ -50,13 +54,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		482483F62318D1CC001ADED5 /* ActorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorViewModelTests.swift; sourceTree = "<group>"; };
+		482483F92318D280001ADED5 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
+		482483FB2318D7D4001ADED5 /* MovieServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieServiceTests.swift; sourceTree = "<group>"; };
 		48255B992316490E009ED696 /* AvengersAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AvengersAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48255B9C2316490E009ED696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		48255BA323164910009ED696 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		48255BA623164910009ED696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48255BA823164910009ED696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48255BAD23164910009ED696 /* AvengersARTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvengersARTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		48255BB123164910009ED696 /* AvengersARTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvengersARTests.swift; sourceTree = "<group>"; };
+		48255BB123164910009ED696 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
 		48255BB323164910009ED696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48255BB823164910009ED696 /* AvengersARUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvengersARUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48255BBC23164910009ED696 /* AvengersARUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvengersARUITests.swift; sourceTree = "<group>"; };
@@ -106,6 +113,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		482483F82318D25C001ADED5 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				482483F92318D280001ADED5 /* MockNetworkService.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		48255B902316490E009ED696 = {
 			isa = PBXGroup;
 			children = (
@@ -145,7 +160,10 @@
 		48255BB023164910009ED696 /* AvengersARTests */ = {
 			isa = PBXGroup;
 			children = (
-				48255BB123164910009ED696 /* AvengersARTests.swift */,
+				482483F82318D25C001ADED5 /* Mocks */,
+				48255BB123164910009ED696 /* HomeViewModelTests.swift */,
+				482483F62318D1CC001ADED5 /* ActorViewModelTests.swift */,
+				482483FB2318D7D4001ADED5 /* MovieServiceTests.swift */,
 				48255BB323164910009ED696 /* Info.plist */,
 			);
 			path = AvengersARTests;
@@ -358,6 +376,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				482483FD2318E0B2001ADED5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +420,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48255BB223164910009ED696 /* AvengersARTests.swift in Sources */,
+				482483FA2318D280001ADED5 /* MockNetworkService.swift in Sources */,
+				482483F72318D1CC001ADED5 /* ActorViewModelTests.swift in Sources */,
+				482483FC2318D7D4001ADED5 /* MovieServiceTests.swift in Sources */,
+				48255BB223164910009ED696 /* HomeViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
