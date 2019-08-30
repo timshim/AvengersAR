@@ -9,6 +9,11 @@
 import XCTest
 @testable import AvengersAR
 
+/*
+In order for the UI tests to run correctly, please make sure to
+add the 4 test images into your simulator's photo library
+ */
+
 class AvengersARUITests: XCTestCase {
 
     var sut: XCUIApplication!
